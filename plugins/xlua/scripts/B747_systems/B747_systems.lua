@@ -45,11 +45,11 @@
 ----- ANIMATION UTILITY -----------------------------------------------------------------
 --function B747_set_animation_position(current_value, target, min, max, speed)
 --    local fps_factor = math.min(1.0, speed * SIM_PERIOD)
---    if target >= (max - 0.001) and current_value >= (max - 0.001) then
+--    if target >= (max - 0.001) and current_value >= (max - 0.01) then
 --        return max
---    elseif target <= (min + 0.001) and current_value <= (min + 0.001) then
+--    elseif target <= (min + 0.001) and current_value <= (min + 0.01) then
 --       return min
---   else
+--    else
 --        return current_value + ((target - current_value) * fps_factor)
 --    end
 --end
