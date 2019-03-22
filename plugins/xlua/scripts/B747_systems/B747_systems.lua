@@ -1,11 +1,5 @@
 -- Boeing 747-400 Systems --
--- Developers: Jim Gregory / Alex Unruh / YesAviation --
 -- Version: 1.0.0
-
---[[
-Complete overhaul of the Boeing 747-400 Systems
---]]
-
 
 -- XLUA GLOBALS
 
