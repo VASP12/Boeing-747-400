@@ -1,21 +1,23 @@
 -- Boeing 747-400 Systems --
 -- Version: 1.0.0
 
--- XLUA GLOBALS
+-- XLUA GLOBALS --
 
--- CONSTANTS
+-- CONSTANTS --
 
--- GLOBAL VARIABLES
+-- GLOBAL VARIABLES --
 
--- LOCAL VARIABLES
+-- LOCAL VARIABLES --
 
--- FIND X-PLANE DATAREFS
+-- FIND X-PLANE DATAREFS --
 
---[[ Electrical System --]]
+--[[General X-Plane Datarefs]]--
 simDR_startup_running                   = find_dataref("sim/operation/prefs/startup_running")
 simDR_engine_running                    = find_dataref("sim/flightmodel/engine/ENGN_running")
 simDR_aircraft_on_ground                = find_dataref("sim/flightmodel/failures/onground_all")
 simDR_aircraft_groundspeed              = find_dataref("sim/flightmodel/position/groundspeed")
+
+--[[ Electrical System --]]
 simDR_battery_on                        = find_dataref("sim/cockpit2/electrical/battery_on")
 simDR_gpu_on                            = find_dataref("sim/cockpit/electrical/gpu_on")
 simDR_cross_tie                         = find_dataref("sim/cockpit2/electrical/cross_tie")
@@ -26,7 +28,7 @@ simDR_apu_N1_pct                        = find_dataref("sim/cockpit2/electrical/
 simDR_apu_running                       = find_dataref("sim/cockpit2/electrical/APU_running")
 simDR_generator_on                      = find_dataref("sim/cockpit2/electrical/generator_on")
 
--- FIND CUSTOM DATAREFS
+-- FIND CUSTOM DATAREFS --
 
 --[[Electrical System --]]
 B747DR_button_switch_position           = find_dataref("laminar/B747/button_switch/position")
@@ -36,15 +38,15 @@ B747DR_gen_drive_disc_status            = find_dataref("laminar/B747/electrical/
 B747DR_CAS_advisory_status              = find_dataref("laminar/B747/CAS/advisory_status")
 B747DR_CAS_memo_status                  = find_dataref("laminar/B747/CAS/memo_status")
 
--- FIND X-PLANE COMMANDS
+-- FIND X-PLANE COMMANDS --
 
--- FIND CUSTOM COMMANDS
+-- FIND CUSTOM COMMANDS --
 
 --[[ Electrical System--]]
 simCMD_apu_gen_on                       = find_command("sim/electrical/APU_generator_on")
 simCMD_apu_gen_off                      = find_command("sim/electrical/APU_generator_off")
 
--- CREATE READ-ONLY CUSTOM DATAREFS
+-- CREATE READ-ONLY CUSTOM DATAREFS --
 
 --[[ Electrical System --]]
 B747DR_elec_standby_power_sel_pos       = create_dataref("laminar/B747/electrical/standby_power/sel_dial_pos", "number")
@@ -56,13 +58,13 @@ B747DR_elec_ext_pwr1_available          = create_dataref("laminar/B747/electrica
 B747DR_init_elec_CD                     = create_dataref("laminar/B747/elec/init_CD", "number")
 
 
--- READ-WRITE CUSTOM DATAREF HANDLERS
+-- READ-WRITE CUSTOM DATAREF HANDLERS --
 
--- CREATE READ-WRITE CUSTOM DATAREFS
+-- CREATE READ-WRITE CUSTOM DATAREFS --
 
--- CUSTOM COMMAND HANDLERS
+-- CUSTOM COMMAND HANDLERS --
 
--- CREATE CUSTOM COMMANDS
+-- CREATE CUSTOM COMMANDS --
 
 --[[ Electrical System --]]
 B747CMD_elec_standby_power_sel_up       = create_command("laminar/B747/electrical/standby_power/sel_dial_up", "Electrical Standby Power Selector Up", B747_elec_standby_power_sel_up_CMDhandler)
@@ -76,27 +78,27 @@ B747CMD_auto_ign_sel_dn                 = create_command("laminar/B747/electrica
 B747CMD_ai_elec_quick_start			        = create_command("laminar/B747/ai/elec_quick_start", "number", B747_ai_elec_quick_start_CMDhandler)
 
 
--- REPLACE X-PLANE COMMAND HANDLERS
+-- REPLACE X-PLANE COMMAND HANDLERS --
 
--- REPLACE X-PLANE COMMANDS
+-- REPLACE X-PLANE COMMANDS --
 
 --[[ Electrical System]]
 simCMD_apu_start                        = replace_command("sim/electrical/APU_start", sim_apu_start_CMDhandler)
 simCMD_apu_on                           = replace_command("sim/electrical/APU_on", sim_apu_on_CMDhandler)
 simCMD_apu_off                          = replace_command("sim/electrical/APU_off", sim_apu_off_CMDhandler)
 
--- X-PLANE WRAP COMMAND HANDLERS
+-- X-PLANE WRAP COMMAND HANDLERS --
 
--- WRAP X-PLANE COMMANDS
+-- WRAP X-PLANE COMMANDS --
 
--- OBJECT CONSTRUCTORS
+-- OBJECT CONSTRUCTORS --
 
--- CREATE OBJECTS
+-- CREATE OBJECTS --
 
--- SYSTEM FUNCTIONS
+-- SYSTEM FUNCTIONS --
 
 
------ ANIMATION UTILITY -----------------------------------------------------------------
+-- ANIMATION UTILITY --
 function B747_set_animation_position(current_value, target, min, max, speed)
     local fps_factor = math.min(1.0, speed * SIM_PERIOD)
     if target >= (max - 0.001) and current_value >= (max - 0.01) then
@@ -108,7 +110,7 @@ function B747_set_animation_position(current_value, target, min, max, speed)
     end
 end
 
--- EVENT CALLBACKS
+-- EVENT CALLBACKS --
 function aircraft_load() end
 
 function aircraft_unload() end
@@ -123,7 +125,7 @@ function after_physics() end
 
 function after_replay() end
 
-SUB-MODULE PROCESSING
+-- SUB-MODULE PROCESSING --
 
 --dofile("")
 --dofile("")
