@@ -354,22 +354,7 @@ end
 
 
 
------ BATTERY ---------------------------------------------------------------------------
---function B747_battery()
---
---    if B747DR_button_switch_position[13] < 0.05
---        and simDR_battery_on[0] == 1
---    then
---        simDR_battery_on[0] = 0
---    end
---
---    if B747DR_button_switch_position[13] > 0.95
---        and simDR_battery_on[0] == 0
---    then
---        simDR_battery_on[0] = 1
---    end
---
---end
+----- BATTERY --------------------------------------------------------------------------- Revised
 
 function B747_battery()
 	if B747DR_button_switch_position[13] < 0.05 then
