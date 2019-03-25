@@ -57,7 +57,6 @@ B747DR_elec_apu_inlet_door_pos          = create_dataref("laminar/B747/electrica
 B747DR_elec_ext_pwr1_available          = create_dataref("laminar/B747/electrical/ext_pwr1_avail", "number")
 B747DR_init_elec_CD                     = create_dataref("laminar/B747/elec/init_CD", "number")
 
-
 -- READ-WRITE CUSTOM DATAREF HANDLERS --
 
 -- CREATE READ-WRITE CUSTOM DATAREFS --
@@ -96,6 +95,8 @@ simCMD_apu_off                          = replace_command("sim/electrical/APU_of
 -- CREATE OBJECTS --
 
 -- SYSTEM FUNCTIONS --
+
+
 
 
 -- ANIMATION UTILITY --
