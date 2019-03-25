@@ -106,6 +106,7 @@ simDR_generator_on              = find_dataref("sim/cockpit2/electrical/generato
 
 B747DR_button_switch_position       = find_dataref("laminar/B747/button_switch/position")
 B747DR_elec_ext_pwr_1_switch_mode   = find_dataref("laminar/B747/elec_ext_pwr_1/switch_mode")
+B747DR_elec_ext_pwr_2_switch_mode   = find_dataref("laminar/B747/elec_ext_pwr_2/switch_mode")
 B747DR_elec_apu_pwr_1_switch_mode   = find_dataref("laminar/B747/apu_pwr_1/switch_mode")
 B747DR_gen_drive_disc_status        = find_dataref("laminar/B747/electrical/generator/drive_disc_status")
 
@@ -126,6 +127,9 @@ B747DR_elec_auto_ignit_sel_pos      = create_dataref("laminar/B747/electrical/au
 B747DR_elec_apu_inlet_door_pos      = create_dataref("laminar/B747/electrical/apu_inlet_door", "number")
 
 B747DR_elec_ext_pwr1_available      = create_dataref("laminar/B747/electrical/ext_pwr1_avail", "number")
+B747DR_elec_ext_pwr2_available      = create_dataref("laminar/B747/electrical/ext_pwr2_avail", "number")
+B747DR_elec_ext_pwr1_on				= create_dataref("laminar/B747/electrical/ext_pwr1_on", "number")
+B747DR_elec_ext_pwr2_on				= create_dataref("laminar/B747/electrical/ext_pwr2_on", "number")
 
 B747DR_init_elec_CD                 = create_dataref("laminar/B747/elec/init_CD", "number")
 
@@ -387,7 +391,7 @@ end
 ----- EXTERNAL POWER --------------------------------------------------------------------
 function B747_external_power()
 
-    -- EXT POWER 1 AVAILABLE
+    -- EXT POWER 1,2 AVAILABLE
     if simDR_aircraft_on_ground == 1
         and simDR_aircraft_groundspeed < 0.05
         and simDR_engine_running[0] == 0
@@ -396,18 +400,36 @@ function B747_external_power()
         and simDR_engine_running[3] == 0
     then
         B747DR_elec_ext_pwr1_available = 1
+		B747DR_elec_ext_pwr2_available = 1
+		
     else
         B747DR_elec_ext_pwr1_available = 0
+		B747DR_elec_ext_pwr2_available = 0
     end
 
     -- EXTERNAL POWER ON/OFF
     if B747DR_elec_ext_pwr1_available == 1
         and B747DR_elec_ext_pwr_1_switch_mode == 1
     then
-        simDR_gpu_on = 1
+		B747DR_elec_ext_pwr1_on = 1
     else
-        simDR_gpu_on = 0
+        B747DR_elec_ext_pwr1_on = 0
     end
+	
+	if B747DR_elec_ext_pwr2_available == 1
+        and B747DR_elec_ext_pwr_2_switch_mode == 1
+    then
+		B747DR_elec_ext_pwr2_on = 1
+    else
+        B747DR_elec_ext_pwr2_on = 0
+    end
+	
+	if B747DR_elec_ext_pwr1_on == 1 and B747DR_elec_ext_pwr2_on == 1
+	then
+		simDR_gpu_on = 1
+	else
+		simDR_gpu_on = 0
+	end
 
 end
 
