@@ -377,7 +377,7 @@ function B747_battery()
 	end
 	
 	if B747DR_button_switch_position[13] > 0.95 then
-		simDR_battery_on[0] =1
+		simDR_battery_on[0] = 1
 	end
 end
 
