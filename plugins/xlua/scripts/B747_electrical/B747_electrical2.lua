@@ -1,55 +1,3 @@
---[[
-*****************************************************************************************
-* Program Script Name	:	B747.03.electrical
-* Author Name			:	Jim Gregory
-*
-*   Revisions:
-*   -- DATE --	--- REV NO ---		--- DESCRIPTION ---
-*   2016-05-03	0.01a				Start of Dev
-*
-*
-*
-*
-*****************************************************************************************
-*        COPYRIGHT � 2016 JIM GREGORY / LAMINAR RESEARCH - ALL RIGHTS RESERVED	    *
-*****************************************************************************************
---]]
-
---[[
-
-ELECTRICAL SYSTEM LOGIC DESCRIPTION:
-
-In planemaker we set up 5 busses.  The battery is assigned to bus 5 making it essentially
-the "Battery Bus".  The fifth bus will have power when the battery switch is on.
-The 747 has 4 "bus-tie" switches, which can isolate each of the 4 main busses.  This cannot
-be done in X-Plane so we require ALL (747) bus-tie switches to be closed in order to close the
-X-Plane cross-tie (handled in the code below).  So, in X-Plane we assign the battery and
-generators to bus 5.  Therefore, all of these 4 busses will have zero voltage until the
-cross-tie is closed.
-
-Since this logic means that all 4 busses either have power or they don't, the assignment of
-components to busses in Planemaker is made for amp load distribution, not for power
-source.  There should be no assignments made to the fifth bus.
-
---]]
-
-
-
---*************************************************************************************--
---** 					              XLUA GLOBALS              				     **--
---*************************************************************************************--
-
---[[
-
-SIM_PERIOD - this contains the duration of the current frame in seconds (so it is alway a
-fraction).  Use this to normalize rates,  e.g. to add 3 units of fuel per second in a
-per-frame callback you’d do fuel = fuel + 3 * SIM_PERIOD.
-
-IN_REPLAY - evaluates to 0 if replay is off, 1 if replay mode is on
-
---]]
-
-
 --*************************************************************************************--
 --** 					               CONSTANTS                    				 **--
 --*************************************************************************************--
@@ -95,6 +43,7 @@ simDR_generator_on              = find_dataref("sim/cockpit2/electrical/generato
 --*************************************************************************************--
 B747DR_button_switch_position       = find_dataref("laminar/B747/button_switch/position")
 B747DR_elec_ext_pwr_1_switch_mode   = find_dataref("laminar/B747/elec_ext_pwr_1/switch_mode")
+B747DR_elec_ext_pwr_2_switch_mode   = find_dataref("laminar/B747/elec_ext_pwr_2/switch_mode")
 B747DR_elec_apu_pwr_1_switch_mode   = find_dataref("laminar/B747/apu_pwr_1/switch_mode")
 B747DR_gen_drive_disc_status        = find_dataref("laminar/B747/electrical/generator/drive_disc_status")
 B747DR_CAS_advisory_status          = find_dataref("laminar/B747/CAS/advisory_status")
@@ -110,45 +59,9 @@ B747DR_elec_auto_ignit_sel_pos      = create_dataref("laminar/B747/electrical/au
 B747DR_elec_apu_inlet_door_pos      = create_dataref("laminar/B747/electrical/apu_inlet_door", "number")
 B747DR_elec_ext_pwr1_available      = create_dataref("laminar/B747/electrical/ext_pwr1_avail", "number")
 B747DR_elec_ext_pwr2_available      = create_dataref("laminar/B747/electrical/ext_pwr2_avail", "number")
+B747DR_elec_ext_pwr1_on             = create_dataref("laminar/B747/electrical/ext_pwr1_on", "number")
+B747DR_elec_ext_pwr2_on             = create_dataref("laminar/B747/electrical/ext_pwr2_on", "number")
 B747DR_init_elec_CD                 = create_dataref("laminar/B747/elec/init_CD", "number")
-
---*************************************************************************************--
---** 				       READ-WRITE CUSTOM DATAREF HANDLERS     	         	     **--
---*************************************************************************************--
-
---*************************************************************************************--
---** 				       CREATE READ-WRITE CUSTOM DATAREFS                         **--
---*************************************************************************************--
-
---*************************************************************************************--
---** 				             X-PLANE COMMAND HANDLERS               	    	 **--
---*************************************************************************************--
-function sim_apu_start_CMDhandler(phase, duration)
-    if phase == 0 then
-        if simDR_apu_running == 0 then
-            if B747DR_elec_apu_sel_pos == 0 then
-                B747CMD_elec_apu_sel_up:once()
-                B747CMD_elec_apu_sel_up:once()
-            elseif B747DR_elec_apu_sel_pos == 1 then
-                B747CMD_elec_apu_sel_up:once()
-            end
-        end
-    end
-end
-function sim_apu_on_CMDhandler(phase, duration)
-    if phase == 0 then
-        if B747DR_elec_apu_sel_pos == 0 then
-            B747CMD_elec_apu_sel_up:once()
-        end
-    end
-end
-function sim_apu_off_CMDhandler(phase, duration)
-    if phase == 0 then
-        if B747DR_elec_apu_sel_pos == 1 then
-            B747CMD_elec_apu_sel_dn:once()
-        end
-    end
-end
 
 --*************************************************************************************--
 --** 				                 X-PLANE COMMANDS                   	    	 **--
@@ -256,21 +169,25 @@ function B747_set_animation_position(current_value, target, min, max, speed)
     end
 
 end
-
 function B747_battery()
-  if B747DR_button_switch_position[13] < 0.05 then
-    simDR_battery_on[0] = 0
-  end
 
-  if B747DR_button_switch_position[13] > 0.95 then
-    simDR_battery_on[0] = 1
-  end
+    if B747DR_button_switch_position[13] < 0.05
+        and simDR_battery_on[0] == 1
+    then
+        simDR_battery_on[0] = 0
+    end
+
+    if B747DR_button_switch_position[13] > 0.95
+        and simDR_battery_on[0] == 0
+    then
+        simDR_battery_on[0] = 1
+    end
+
 end
-
 
 function B747_external_power()
 
-    -- EXT POWER 1 AVAILABLE
+    -- EXT POWER 1,2 AVAILABLE
     if simDR_aircraft_on_ground == 1
         and simDR_aircraft_groundspeed < 0.05
         and simDR_engine_running[0] == 0
@@ -279,17 +196,31 @@ function B747_external_power()
         and simDR_engine_running[3] == 0
     then
         B747DR_elec_ext_pwr1_available = 1
+		B747DR_elec_ext_pwr2_available = 1
     else
         B747DR_elec_ext_pwr1_available = 0
+		B747DR_elec_ext_pwr2_available = 0
     end
 
     -- EXTERNAL POWER ON/OFF
     if B747DR_elec_ext_pwr1_available == 1
         and B747DR_elec_ext_pwr_1_switch_mode == 1
     then
-        simDR_gpu_on = 1
+        --simDR_gpu_on = 1
+		B747DR_elec_ext_pwr1_on = 1
     else
-        simDR_gpu_on = 0
+        --simDR_gpu_on = 0
+		B747DR_elec_ext_pwr1_on = 0
+    end
+	
+	if B747DR_elec_ext_pwr2_available == 1
+        and B747DR_elec_ext_pwr_2_switch_mode == 1
+    then
+        --simDR_gpu_on = 1
+		B747DR_elec_ext_pwr2_on = 1
+    else
+        --simDR_gpu_on = 0
+		B747DR_elec_ext_pwr2_on = 0
     end
 
 end
@@ -312,6 +243,7 @@ function B747_bus_tie()
     end
 
 end
+
 function B747_apu_shutdown()
 
     simDR_apu_start_switch_mode = 0
@@ -319,6 +251,7 @@ function B747_apu_shutdown()
     B747_apu_inlet_door_target_pos = 0.0
 
 end
+
 function B747_apu()
     if B747DR_elec_apu_sel_pos == 0 then
         if simDR_apu_running == 1 then
@@ -331,7 +264,7 @@ function B747_apu()
             end
         end
 
-    elseif B747_apu_start == 1 then                   -- TODO:  NEED BATTERY SWITCH ON OR HARDWIRED ?
+    elseif B747_apu_start == 1 and simDR_battery_on[0] == 1 then                 
         if simDR_apu_running == 0 then
             B747_apu_inlet_door_target_pos = 1.0
             if B747DR_elec_apu_inlet_door_pos > 0.95 then
@@ -418,42 +351,7 @@ function B747_generator()
 
 end
 function B747_electrical_EICAS_msg()
-    B747DR_CAS_advisory_status[13] = 0
-    if (B747DR_elec_apu_sel_pos > 0.95 and simDR_apu_N1_pct < 0.1)
-        or
-        (B747DR_elec_apu_sel_pos < 0.05 and simDR_apu_N1_pct > 95.0)
-    then
-        B747DR_CAS_advisory_status[13] = 1
-    end
-    B747DR_CAS_advisory_status[14] = 0
-    if (B747DR_elec_apu_inlet_door_pos > 0.95 and simDR_apu_running == 0)
-        or
-        (B747DR_elec_apu_inlet_door_pos < 0.05 and simDR_apu_running == 1)
-    then
-        B747DR_CAS_advisory_status[14] = 1
-    end
-    B747DR_CAS_advisory_status[83] = 0
-    if B747DR_gen_drive_disc_status[0] == 1 then B747DR_CAS_advisory_status[83] = 1 end
-    B747DR_CAS_advisory_status[84] = 0
-    if B747DR_gen_drive_disc_status[1] == 1 then B747DR_CAS_advisory_status[84] = 1 end
-    B747DR_CAS_advisory_status[85] = 0
-    if B747DR_gen_drive_disc_status[2] == 1 then B747DR_CAS_advisory_status[85] = 1 end
-    B747DR_CAS_advisory_status[86] = 0
-    if B747DR_gen_drive_disc_status[3] == 1 then B747DR_CAS_advisory_status[86] = 1 end
-    B747DR_CAS_advisory_status[105] = 0
-    if B747DR_button_switch_position[11] < 0.05 then B747DR_CAS_advisory_status[105] = 1 end
-    B747DR_CAS_advisory_status[106] = 0
-    if B747DR_button_switch_position[12] < 0.05 then B747DR_CAS_advisory_status[106] = 1 end
-    B747DR_CAS_memo_status[1] = 0
-    if B747DR_elec_apu_sel_pos == 1 and simDR_apu_N1_pct > 95.0 then
-        B747DR_CAS_memo_status[1] = 1
-    end
-    B747DR_CAS_memo_status[34] = 0
-    if B747DR_elec_stby_ignit_sel_pos == 0
-        or B747DR_elec_stby_ignit_sel_pos == 2
-    then
-        B747DR_CAS_memo_status[34] = 1
-    end
+--didnt work anyway so deleted it
 end
 
 function B747_elec_monitor_AI()
@@ -524,4 +422,3 @@ function after_physics()
     B747_elec_monitor_AI()
 
 end
---function after_replay() end
