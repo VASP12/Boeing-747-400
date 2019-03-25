@@ -123,6 +123,7 @@ B747DR_button_switch_position       = create_dataref("laminar/B747/button_switch
 B747DR_toggle_switch_position       = create_dataref("laminar/B747/toggle_switch/position", "array[" .. tostring(NUM_TOGGLE_SW) .. "]")
 
 B747DR_elec_ext_pwr_1_switch_mode   = create_dataref("laminar/B747/elec_ext_pwr_1/switch_mode", "number")
+B747DR_elec_ext_pwr_2_switch_mode   = create_dataref("laminar/B747/elec_ext_pwr_2/switch_mode", "number")
 B747DR_elec_apu_pwr_1_switch_mode   = create_dataref("laminar/B747/apu_pwr_1/switch_mode", "number")
 
 B747DR_gen_drive_disc_status        = create_dataref("laminar/B747/electrical/generator/drive_disc_status", "array[4]")
@@ -578,6 +579,7 @@ end
 function B747_elec_ext_pwr_2_CMDhandler(phase, duration)
     if phase == 0 then
         B747_button_switch_position_target[15] = 1
+		B747DR_elec_ext_pwr_2_switch_mode = 1.0 - B747DR_elec_ext_pwr_2_switch_mode
     elseif phase == 1 then
         B747_button_switch_position_target[15] = 1
     elseif phase == 2 then
