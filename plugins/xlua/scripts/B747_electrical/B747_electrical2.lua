@@ -352,6 +352,9 @@ function B747_generator()
 end
 function B747_electrical_EICAS_msg()
 --didnt work anyway so deleted it
+
+
+------ So lets make it work. EICAS messages are on warning01
 end
 
 function B747_elec_monitor_AI()
