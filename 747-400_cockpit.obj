@@ -21435,7 +21435,6 @@ IDX	17237
 IDX	17238
 
 ATTR_draw_disable
-ATTR_solid_camera
 TRIS	0 2178
 ATTR_manip_command	button	laminar/B747/button_switch/gnd_prox_gear_ovrd	Gear Override
 ANIM_begin
