@@ -109,6 +109,7 @@ B747DR_elec_stby_ignit_sel_pos      = create_dataref("laminar/B747/electrical/st
 B747DR_elec_auto_ignit_sel_pos      = create_dataref("laminar/B747/electrical/auto_ignit/sel_dial_pos", "number")
 B747DR_elec_apu_inlet_door_pos      = create_dataref("laminar/B747/electrical/apu_inlet_door", "number")
 B747DR_elec_ext_pwr1_available      = create_dataref("laminar/B747/electrical/ext_pwr1_avail", "number")
+B747DR_elec_ext_pwr2_available      = create_dataref("laminar/B747/electrical/ext_pwr2_avail", "number")
 B747DR_init_elec_CD                 = create_dataref("laminar/B747/elec/init_CD", "number")
 
 --*************************************************************************************--
@@ -211,10 +212,10 @@ end
 function B747_ai_elec_quick_start_CMDhandler(phase, duration)
     if phase == 0 then
 	  	B747_set_elec_all_modes()
-	  	B747_set_elec_CD() 
+	  	B747_set_elec_CD()
 	  	B747_set_elec_ER()
-	end 	
-end	
+	end
+end
 
 --*************************************************************************************--
 --** 				                 CUSTOM COMMANDS                			     **--
@@ -332,7 +333,7 @@ function B747_apu()
                 end
             end
         end
-		
+
     elseif B747_apu_start == 1 then                   -- TODO:  NEED BATTERY SWITCH ON OR HARDWIRED ?
         if simDR_apu_running == 0 then
             B747_apu_inlet_door_target_pos = 1.0
@@ -469,7 +470,7 @@ function B747_elec_monitor_AI()
 end
 
 function B747_set_elec_all_modes()
-	
+
 	B747DR_init_elec_CD = 0
     B747DR_elec_stby_ignit_sel_pos = 1
     B747DR_elec_auto_ignit_sel_pos = 1
@@ -485,10 +486,10 @@ function B747_set_elec_CD()
 end
 
 function B747_set_elec_ER()
-	
-	
-	
-end	
+
+
+
+end
 
 ----- FLIGHT START ---------------------------------------------------------------------
 function B747_flight_start_electric()
@@ -509,7 +510,7 @@ end
 
 --function aircraft_load() end
 --function aircraft_unload() end
-function flight_start() 
+function flight_start()
 
     B747_flight_start_electric()
 
@@ -527,6 +528,3 @@ function after_physics()
 
 end
 --function after_replay() end
-
-
-
