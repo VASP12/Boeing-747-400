@@ -54,7 +54,7 @@ IN_REPLAY - evaluates to 0 if replay is off, 1 if replay mode is on
 --** 					               CONSTANTS                    				 **--
 --*************************************************************************************--
 
-
+local NUM_ALERT_MESSAGES = 109
 
 
 --*************************************************************************************--
@@ -71,30 +71,31 @@ IN_REPLAY - evaluates to 0 if replay is off, 1 if replay mode is on
 local B747_apu_start = 0
 local B747_apu_inlet_door_target_pos = 0
 
+local B747_CASwarning   = {}
+local B747_CAScaution   = {}
+local B747_CASadvisory  = {}
+local B747_CASmemo      = {}
+
 
 
 --*************************************************************************************--
 --** 				                X-PLANE DATAREFS            			    	 **--
 --*************************************************************************************--
 
-simDR_startup_running           = find_dataref("sim/operation/prefs/startup_running")
-
-simDR_engine_running            = find_dataref("sim/flightmodel/engine/ENGN_running")
-
-simDR_aircraft_on_ground        = find_dataref("sim/flightmodel/failures/onground_all")
-simDR_aircraft_groundspeed      = find_dataref("sim/flightmodel/position/groundspeed")
-
-simDR_battery_on                = find_dataref("sim/cockpit2/electrical/battery_on")
-simDR_gpu_on                    = find_dataref("sim/cockpit/electrical/gpu_on")
-simDR_cross_tie                 = find_dataref("sim/cockpit2/electrical/cross_tie")
-
-simDR_apu_gen_on                = find_dataref("sim/cockpit2/electrical/APU_generator_on")
---simDR_apu_gen_amps              = find_dataref("sim/cockpit2/electrical/APU_generator_amps")
-simDR_apu_start_switch_mode     = find_dataref("sim/cockpit2/electrical/APU_starter_switch")
-simDR_apu_N1_pct                = find_dataref("sim/cockpit2/electrical/APU_N1_percent")
-simDR_apu_running               = find_dataref("sim/cockpit2/electrical/APU_running")
-
-simDR_generator_on              = find_dataref("sim/cockpit2/electrical/generator_on")
+simDR_startup_running           	= find_dataref("sim/operation/prefs/startup_running")
+simDR_engine_running            	= find_dataref("sim/flightmodel/engine/ENGN_running")
+simDR_aircraft_on_ground        	= find_dataref("sim/flightmodel/failures/onground_all")
+simDR_aircraft_groundspeed      	= find_dataref("sim/flightmodel/position/groundspeed")
+simDR_battery_on                	= find_dataref("sim/cockpit2/electrical/battery_on")
+simDR_gpu_on                    	= find_dataref("sim/cockpit/electrical/gpu_on")
+simDR_cross_tie                 	= find_dataref("sim/cockpit2/electrical/cross_tie")
+simDR_apu_gen_on                	= find_dataref("sim/cockpit2/electrical/APU_generator_on")
+simDR_apu_gen_amps              	= find_dataref("sim/cockpit2/electrical/APU_generator_amps") -- why was this commented out?
+simDR_apu_start_switch_mode     	= find_dataref("sim/cockpit2/electrical/APU_starter_switch")
+simDR_apu_N1_pct                	= find_dataref("sim/cockpit2/electrical/APU_N1_percent")
+simDR_apu_running               	= find_dataref("sim/cockpit2/electrical/APU_running")
+simDR_generator_on              	= find_dataref("sim/cockpit2/electrical/generator_on")
+simDR_ind_airspeed_kts_pilot        = find_dataref("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
 
 
 
@@ -513,7 +514,7 @@ end
 
 
 
------ GENERATORS ------------------------------------------------------------------------
+----- GENERATORS ------------------------------------------------------------------------ WE MIGHT HAVE TO LEAVE THIS ALONE. THE CHECKS ARE IN THE PROPER PLACE
 function B747_generator()
 
     -- ENGINE #1
