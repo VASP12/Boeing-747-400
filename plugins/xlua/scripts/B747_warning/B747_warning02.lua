@@ -478,8 +478,6 @@ end
 ----- EICAS MESSAGES --------------------------------------------------------------------
 function B747_warnings_EICAS_msg()
 
-
-
 end
 
 
