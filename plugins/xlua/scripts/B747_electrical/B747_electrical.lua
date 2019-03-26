@@ -522,8 +522,11 @@ function B747_electrical_EICAS_msg()
 end
 
 function B747_electrical_EICAS_msg()
-
 end
+	-- BATTERY
+	-- APU INLET DOOR
+	-- GENERATORS
+	--
 
 function B747_elec_monitor_AI()
 
