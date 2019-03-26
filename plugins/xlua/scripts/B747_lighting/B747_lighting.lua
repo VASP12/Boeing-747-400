@@ -166,6 +166,10 @@ B747DR_button_switch_position       = find_dataref("laminar/B747/button_switch/p
 B747DR_toggle_switch_position       = find_dataref("laminar/B747/toggle_switch/position")
 
 B747DR_elec_ext_pwr1_available      = find_dataref("laminar/B747/electrical/ext_pwr1_avail")
+B747DR_elec_ext_pwr2_available		= find_dataref("laminar/B747/electrical/ext_pwr2_avail")
+
+B747DR_elec_ext_pwr1_on 			= find_dataref("laminar/B747/electrical/ext_pwr1_on")
+B747DR_elec_ext_pwr2_on 			= find_dataref("laminar/B747/electrical/ext_pwr2_on")
 
 B747DR_gear_handle 					= find_dataref("laminar/B747/actuator/gear_handle")
 --B747DR_gear_handle_position         = find_dataref("laminar/B747/gear_handle/position")
@@ -871,10 +875,10 @@ function B747_annunciators()
     annun.b.battery_off = B747_ternary((B747DR_button_switch_position[13] < 0.5), 1, 0)
 
     -- EXTERNAL POWER
-    annun.b.ext_pwr_avail_01 = B747_ternary(((B747DR_elec_ext_pwr1_available == 1) and (simDR_gpu_on == 0)), 1, 0)
-    annun.b.ext_pwr_avail_02 = 0
-    annun.b.ext_pwr_on_01 = B747_ternary((simDR_gpu_on == 1), 1, 0)
-    annun.b.ext_pwr_on_02 = 0
+    annun.b.ext_pwr_avail_01 = B747_ternary(((B747DR_elec_ext_pwr1_available == 1) and (B747DR_elec_ext_pwr1_on == 0)), 1, 0)
+    annun.b.ext_pwr_avail_02 = B747_ternary(((B747DR_elec_ext_pwr2_available == 1) and (B747DR_elec_ext_pwr2_on == 0)), 1, 0)
+    annun.b.ext_pwr_on_01 = B747_ternary((B747DR_elec_ext_pwr1_on == 1), 1, 0)
+    annun.b.ext_pwr_on_02 = B747_ternary((B747DR_elec_ext_pwr2_on == 1), 1, 0)
 
     -- APU GENERATOR
     annun.b.apu_gen_avail_01 = B747_ternary(((simDR_apu_gen_on == 0)
