@@ -521,12 +521,15 @@ function B747_electrical_EICAS_msg()
 
 end
 
-function B747_electrical_EICAS_msg()
-end
+--function B747_electrical_EICAS_msg()
 	-- BATTERY
+	-- APU
 	-- APU INLET DOOR
+	-- STANDBY POWER
 	-- GENERATORS
+	-- DRIVE DISCONNECT
 	--
+--end
 
 function B747_elec_monitor_AI()
 
