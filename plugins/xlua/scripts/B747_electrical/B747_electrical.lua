@@ -313,7 +313,7 @@ function B747_external_power()
         B747DR_elec_ext_pwr2_on = 0
     end
 	
-	if B747DR_elec_ext_pwr1_on == 1 and B747DR_elec_ext_pwr2_on == 1
+	if B747DR_elec_ext_pwr1_on == 1 or B747DR_elec_ext_pwr2_on == 1
 	then
 		simDR_gpu_on = 1
 	else

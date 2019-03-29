@@ -399,7 +399,7 @@ B747DR_spill_light_aisle_stand_flood    = create_dataref("laminar/B747/light/spi
 B747DR_spill_light_mag_compass_flood    = create_dataref("laminar/B747/light/spill/ratio/mag_compass", "array[" .. tostring(NUM_SPILL_LIGHT_INDICES) .. "]")
 
 B747DR_init_lighting_CD                 = create_dataref("laminar/B747/lighting/init_CD", "number")
-
+	test                = create_dataref("laminar/test", "number")
 
 
 ----- LIT -------------------------------------------------------------------------------
@@ -879,6 +879,7 @@ function B747_annunciators()
     annun.b.ext_pwr_avail_02 = B747_ternary(((B747DR_elec_ext_pwr2_available == 1) and (B747DR_elec_ext_pwr2_on == 0)), 1, 0)
     annun.b.ext_pwr_on_01 = B747_ternary((B747DR_elec_ext_pwr1_on == 1), 1, 0)
     annun.b.ext_pwr_on_02 = B747_ternary((B747DR_elec_ext_pwr2_on == 1), 1, 0)
+	test= annun.b.ext_pwr_on_02
 
     -- APU GENERATOR
     annun.b.apu_gen_avail_01 = B747_ternary(((simDR_apu_gen_on == 0)
