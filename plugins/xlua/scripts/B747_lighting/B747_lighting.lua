@@ -171,6 +171,10 @@ B747DR_elec_ext_pwr2_available		= find_dataref("laminar/B747/electrical/ext_pwr2
 B747DR_elec_ext_pwr1_on 			= find_dataref("laminar/B747/electrical/ext_pwr1_on")
 B747DR_elec_ext_pwr2_on 			= find_dataref("laminar/B747/electrical/ext_pwr2_on")
 
+simDR_gen_amps						= find_dataref("sim/cockpit2/electrical/generator_amps")
+B747DR_fms2_brightness              = find_dataref("laminar/B747/fms2/display_brightness")
+
+
 B747DR_gear_handle 					= find_dataref("laminar/B747/actuator/gear_handle")
 --B747DR_gear_handle_position         = find_dataref("laminar/B747/gear_handle/position")
 --B747DR_flap_lever                   = find_dataref("laminar/B747/flt_ctrls/flap_lever")
@@ -879,7 +883,7 @@ function B747_annunciators()
     annun.b.ext_pwr_avail_02 = B747_ternary(((B747DR_elec_ext_pwr2_available == 1) and (B747DR_elec_ext_pwr2_on == 0)), 1, 0)
     annun.b.ext_pwr_on_01 = B747_ternary((B747DR_elec_ext_pwr1_on == 1), 1, 0)
     annun.b.ext_pwr_on_02 = B747_ternary((B747DR_elec_ext_pwr2_on == 1), 1, 0)
-	test= annun.b.ext_pwr_on_02
+	
 
     -- APU GENERATOR
     annun.b.apu_gen_avail_01 = B747_ternary(((simDR_apu_gen_on == 0)
@@ -1418,7 +1422,24 @@ function B747_annunciators()
 end
 
 
-
+function B747_display_lighting()
+--adjust the power up of displays
+	if (simDR_gen_amps[0] ==0) and (simDR_gen_amps[1]==0) and (simDR_gen_amps[2]==0) and (simDR_gen_amps[3] == 0) then
+	genpower = 0
+	else
+	genpower =1
+	end
+	--fo nd
+	simDR_instrument_brightness_switch[3] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0),  0, 1)
+	--lower eicas
+	simDR_instrument_brightness_switch[10] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, 1)
+	--fo pfd
+	simDR_instrument_brightness_switch[5] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, 1)
+	--fo fmc
+	B747DR_fms2_brightness = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, 1)
+	--center fmc
+	
+end 
 
 
 ----- ANNUNCIATORS (IND LTS) -----------------------------------------------------
@@ -1449,7 +1470,6 @@ function B747_ind_lights()
 
 
     -- BUTTON SWITCHES ----------------------------------------------------------
-
 
     ------ GLARESHIELD -----
 
@@ -2010,7 +2030,7 @@ function after_physics()
     B747_wing_lights()
     B747_logo_lights()
     B747_cabin_lights()
-
+	B747_display_lighting()
     B747_spill_lights()
     B747_annunciators()
     B747_ind_lights()
