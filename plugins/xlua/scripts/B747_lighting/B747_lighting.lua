@@ -1430,11 +1430,11 @@ function B747_display_lighting()
 	genpower =1
 	end
 	--fo nd
-	simDR_instrument_brightness_switch[3] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0),  0, 1)
+	simDR_instrument_brightness_switch[3] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0),  0, math.min(simDR_instrument_brightness_switch[3]+0.2*SIM_PERIOD,1))
 	--lower eicas
-	simDR_instrument_brightness_switch[10] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, 1)
+	simDR_instrument_brightness_switch[10] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, math.min(simDR_instrument_brightness_switch[10]+0.2*SIM_PERIOD,1))
 	--fo pfd
-	simDR_instrument_brightness_switch[5] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, 1)
+	simDR_instrument_brightness_switch[5] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, math.min(simDR_instrument_brightness_switch[5]+0.2*SIM_PERIOD,1))
 	--fo fmc
 	B747DR_fms2_brightness = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, 1)
 	--center fmc
