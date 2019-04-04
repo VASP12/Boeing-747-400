@@ -1,3 +1,3 @@
--- Boeing 747-400 Flight Management System 
+-- Boeing 747-400 Electronic Flight Bag 
 -- Version: 0.0.1
 -- Authors: Reddeviln, YesAviation (Daniel)
