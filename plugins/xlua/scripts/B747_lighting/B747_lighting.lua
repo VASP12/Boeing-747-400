@@ -381,7 +381,7 @@ B747DR_master_caution               = find_dataref("laminar/B747/warning/master_
 
 B747DR_CAS_memo_status              = find_dataref("laminar/B747/CAS/memo_status")
 
-
+B747DR_elec_standby_power_sel_pos   =find_dataref("laminar/B747/electrical/standby_power/sel_dial_pos")
 
 
 
@@ -1429,8 +1429,14 @@ function B747_display_lighting()
 	else
 	genpower =1
 	end
+	--cpt pfd 
+	simDR_instrument_brightness_switch[2] = B747_ternary((B747DR_button_switch_position[13] == 1 and B747DR_elec_standby_power_sel_pos == 1), math.min(simDR_instrument_brightness_switch[2]+0.2*SIM_PERIOD,1), 0)
+	--cpt nd 
+	simDR_instrument_brightness_switch[0] = B747_ternary((B747DR_button_switch_position[13] == 1 and B747DR_elec_standby_power_sel_pos == 1), math.min(simDR_instrument_brightness_switch[0]+0.2*SIM_PERIOD,1), 0)
+	--upper eicas
+	simDR_instrument_brightness_switch[9] = B747_ternary((B747DR_button_switch_position[13] == 1 and B747DR_elec_standby_power_sel_pos == 1), math.min(simDR_instrument_brightness_switch[9]+0.2*SIM_PERIOD,1), 0)
 	--fo nd
-	simDR_instrument_brightness_switch[3] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0),  0, math.min(simDR_instrument_brightness_switch[3]+0.2*SIM_PERIOD,1))
+	simDR_instrument_brightness_switch[3] = B747_ternary((B747DR_button_switch_position[13] == 1  and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0),  0, math.min(simDR_instrument_brightness_switch[3]+0.2*SIM_PERIOD,1))
 	--lower eicas
 	simDR_instrument_brightness_switch[10] = B747_ternary((B747DR_button_switch_position[13] == 1 and simDR_gpu_on == 0 and  simDR_apu_gen_on == 0 and genpower ==0), 0, math.min(simDR_instrument_brightness_switch[10]+0.2*SIM_PERIOD,1))
 	--fo pfd
