@@ -70,6 +70,8 @@ B747DR_gen_drive_disc_status        = find_dataref("laminar/B747/electrical/gene
 --** 				        CREATE READ-ONLY CUSTOM DATAREFS               	         **--
 --*************************************************************************************--
 
+
+
 B747DR_elec_standby_power_sel_pos   = create_dataref("laminar/B747/electrical/standby_power/sel_dial_pos", "number")
 B747DR_elec_apu_sel_pos             = create_dataref("laminar/B747/electrical/apu/sel_dial_pos", "number")
 B747DR_elec_stby_ignit_sel_pos      = create_dataref("laminar/B747/electrical/stby_ignit/sel_dial_pos", "number")
@@ -85,6 +87,7 @@ B747DR_init_elec_CD                 = create_dataref("laminar/B747/elec/init_CD"
 --*************************************************************************************--
 --** 				       READ-WRITE CUSTOM DATAREF HANDLERS     	         	     **--
 --*************************************************************************************--
+
 
 --*************************************************************************************--
 --** 				       CREATE READ-WRITE CUSTOM DATAREFS                         **--

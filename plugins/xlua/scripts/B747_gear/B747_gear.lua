@@ -376,8 +376,8 @@ function B747_set_gear_handle_lock()
 
         -- AIRCRAFT IS IN THE AIR
         else
-            if (simDR_tire_steer_deg[1] == 0.0 and simDR_tire_steer_deg[1] == 0.0)          -- BODY GEAR "CENTERED" (STEERING)
-                and (simDR_gear_claw_angle[3] > 0.0 and simDR_gear_claw_angle[4] > 0.0)     -- MAIN (WING) GEAR TILTED (CLAW)
+            if (simDR_tire_steer_deg[1] == 0.0 and simDR_tire_steer_deg[1] == 0.0)
+                and (simDR_gear_claw_angle[1] > 0.0 and simDR_gear_claw_angle[2] > 0.0 and simDR_gear_claw_angle[3] > 0.0 and simDR_gear_claw_angle[4] > 0.0)
             then
                 B747_gear_handle_lock = 0
             end

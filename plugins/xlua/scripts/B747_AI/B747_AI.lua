@@ -482,11 +482,7 @@ function B747_auto_board()
             B747DR_init_inst_CD = 1
             B747DR_init_fmsL_CD = 1
             B747DR_init_fmsR_CD = 1
-            B747DR_init_autopilot_CD = 1 -- Why was this commented out? **WILL THIS CTD?**
-			B747DR_init_fmsC_CD = 1 -- Won't work right now. Might crash to desktop. We will see
-			B747DR_init_efb_CD = 1 -- Won't work right now. Might crash to desktop. We will see
-			B747DR_init_irs_CD = 1 -- Won't work right now. Might crash to desktop. We will see
-			B747DR_init_LATLON_CD = 1 -- Won't work right now. Might crash to desktop. We will see
+            -- B747DR_init_autopilot_CD = 1 -- Why was this commented out? **WILL THIS CTD?**
             B747DR_init_safety_CD = 1
             B747DR_init_warning_CD = 1
             B747DR_init_lighting_CD = 1        
@@ -516,11 +512,7 @@ function B747_auto_board()
                 and B747DR_init_inst_CD == 2
                 and B747DR_init_fmsL_CD == 2
                 and B747DR_init_fmsR_CD == 2
-				and	B747DR_init_autopilot_CD = 2 -- Why was this commented out? **WILL THIS CTD?**
-				and	B747DR_init_fmsC_CD = 2 -- Won't work right now. Might crash to desktop. We will see
-				and	B747DR_init_efb_CD = 2 -- Won't work right now. Might crash to desktop. We will see
-				and	B747DR_init_irs_CD = 2 -- Won't work right now. Might crash to desktop. We will see
-				and	B747DR_init_LATLON_CD = 2v -- Won't work right now. Might crash to desktop. We will see
+				-- and	B747DR_init_autopilot_CD == 2 -- Why was this commented out? **WILL THIS CTD?**
                 and B747DR_init_safety_CD == 2
                 and B747DR_init_warning_CD == 2
                 and B747DR_init_lighting_CD == 2
@@ -543,11 +535,7 @@ function B747_auto_board()
                 B747DR_init_inst_CD = 0
                 B747DR_init_fmsL_CD = 0
                 B747DR_init_fmsR_CD = 0
-				B747DR_init_autopilot_CD = 0 -- Why was this commented out? **WILL THIS CTD?**
-				B747DR_init_fmsC_CD = 0 -- Won't work right now. Might crash to desktop. We will see
-				B747DR_init_efb_CD = 0 -- Won't work right now. Might crash to desktop. We will see
-				B747DR_init_irs_CD = 0 -- Won't work right now. Might crash to desktop. We will see
-				B747DR_init_LATLON_CD = 0 -- Won't work right now. Might crash to desktop. We will see
+				-- B747DR_init_autopilot_CD = 0 -- Why was this commented out? **WILL THIS CTD?**
                 B747DR_init_safety_CD = 0
                 B747DR_init_warning_CD = 0
                 B747DR_init_lighting_CD = 0                  
