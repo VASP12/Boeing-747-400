@@ -54,6 +54,7 @@ simDR_apu_N1_pct                	= find_dataref("sim/cockpit2/electrical/APU_N1_
 simDR_apu_running               	= find_dataref("sim/cockpit2/electrical/APU_running")
 simDR_generator_on              	= find_dataref("sim/cockpit2/electrical/generator_on")
 simDR_ind_airspeed_kts_pilot        = find_dataref("sim/cockpit2/gauges/indicators/airspeed_kts_pilot")
+simDR_electrical_bus_volts          = find_dataref("sim/cockpit2/electrical/bus_volts")
 
 --*************************************************************************************--
 --** 				              FIND CUSTOM DATAREFS             			    	 **--
@@ -82,7 +83,7 @@ B747DR_elec_ext_pwr2_available      = create_dataref("laminar/B747/electrical/ex
 B747DR_elec_ext_pwr1_on				= create_dataref("laminar/B747/electrical/ext_pwr1_on", "number")
 B747DR_elec_ext_pwr2_on				= create_dataref("laminar/B747/electrical/ext_pwr2_on", "number")
 B747DR_init_elec_CD                 = create_dataref("laminar/B747/elec/init_CD", "number")
-
+B747DR_test = create_dataref("test", "number")
 
 --*************************************************************************************--
 --** 				       READ-WRITE CUSTOM DATAREF HANDLERS     	         	     **--
@@ -327,6 +328,8 @@ end
 
 function B747_bus_tie()
 
+	simDR_electrical_bus_volts[0] = 0
+	B747DR_test = simDR_electrical_bus_volts[0]
     if B747DR_button_switch_position[18] > 0.95
         and B747DR_button_switch_position[19] > 0.95
         and B747DR_button_switch_position[20] > 0.95
@@ -342,6 +345,7 @@ function B747_bus_tie()
     then
         simDR_cross_tie = 0
     end
+	
 
 end
 

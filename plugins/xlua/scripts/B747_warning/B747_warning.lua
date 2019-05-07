@@ -404,7 +404,8 @@ B747_CASadvisoryMsg   = {
     {DRindex = 298, name = ">WINDSHEAR SYS", status = 0},
     {DRindex = 299, name = ">X FEED CONFIG", status = 0},       --
     {DRindex = 300, name = ">YAW DAMPER LWR", status = 0},      --
-    {DRindex = 301, name = ">YAW DAMPER UPR", status = 0},      --
+    {DRindex = 301, name = ">YAW DAMPER UPR", status = 0},
+	{DRindex = 302, name = ">IRS TO ALIGN HI LAT", status = 0},--
 }
 
 B747_CASmemoMsg   = {
